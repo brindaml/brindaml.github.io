@@ -1,34 +1,675 @@
-/* A deliberately small starting point.
-   It exists to prove one thing: this file is loading.
-   If you can see spacing and a readable line length, the path in index.html works.
-
-   Delete all of it whenever you want. */
+/* Shadow / Purified theme, styled like a mobile game's card UI.
+   The page lives in the dark "shadow" world by default: near-black,
+   violet glow, chunky rounded cards with hard offset shadows and a
+   playful bubble-letter display font, the way a game's menu screens
+   look, without copying any one game's actual logo or palette.
+   The one thing that ever turns bright is the result panel when the
+   verdict is "purify it", a small pocket of gold/cream light in the
+   dark, echoing the actual calculator.
+   This commits to one look on purpose rather than following the
+   visitor's light/dark system setting, the way a themed game page does. */
 
 :root {
-  /* Makes the page follow the reader's light or dark mode setting, for free. */
-  color-scheme: light dark;
+  color-scheme: dark;
+
+  --void: #0a0714;
+  --panel-solid: #1c1132;
+  --panel-solid-2: #241540;
+  --outline: #150a26;
+  --border: #6b3fc7;
+  --purple-deep: #2c1652;
+  --purple-mid: #7b3fe4;
+  --purple-glow: #b087ff;
+  --text: #ece6f7;
+  --text-dim: #b7a6d9;
+  --danger: #ff8a80;
+
+  --gold: #ffd76a;
+  --gold-deep: #c8900a;
+  --cream: #fff6e2;
+  --ink: #3a2c05;
+
+  --dusk-top: #140b30;
+  --dusk-mid: #4a2764;
+  --dusk-low: #a4416f;
+  --dusk-horizon: #ff9a5a;
+  --mtn-far: #6b4485;
+  --mtn-mid: #42285f;
+  --mtn-near: #1a1234;
+  --window-glow: #ffdd8a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-
-  /* 65ch caps the line at about 65 characters. Long lines are genuinely hard
-     to read, and this single rule does more for legibility than anything else
-     in this file. */
-  max-width: 65ch;
-
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--dusk-top);
+  color: var(--text);
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.6;
   font-size: 1.125rem;
 }
 
+/* An original dusk landscape behind everything: sky, stars, two mountain
+   silhouette layers, a glowing window, and a treeline, all drawn with CSS
+   gradients and clip-path, no images, no borrowed art. Two small original
+   silhouette critters (not any specific Pokemon) drift over it. */
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    var(--dusk-top) 0%,
+    var(--dusk-mid) 45%,
+    var(--dusk-low) 72%,
+    var(--dusk-horizon) 92%,
+    var(--dusk-horizon) 100%
+  );
+}
+
+.stars {
+  position: absolute;
+  inset: 0 0 28% 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 110px 70px, #fff, transparent),
+    radial-gradient(2px 2px at 165px 22px, #fff, transparent),
+    radial-gradient(1px 1px at 205px 115px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 60px 145px, #fff, transparent);
+  background-size: 240px 180px;
+  background-repeat: repeat;
+  opacity: 0.5;
+  animation: twinkle 5s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.5; }
+  to { opacity: 0.95; }
+}
+
+/* Faint distant ranges high in the sky, for depth behind the header. */
+.ridge {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  pointer-events: none;
+}
+
+.ridge-far {
+  top: 15vh;
+  height: 30vh;
+  background: #3b2560;
+  opacity: 0.4;
+  clip-path: polygon(
+    0 100%, 0 62%, 12% 34%, 24% 58%, 38% 26%, 52% 54%,
+    64% 30%, 78% 56%, 90% 32%, 100% 52%, 100% 100%
+  );
+}
+
+.ridge-mid {
+  top: 26vh;
+  height: 34vh;
+  background: #34205a;
+  opacity: 0.55;
+  clip-path: polygon(
+    0 100%, 0 58%, 16% 20%, 30% 52%, 46% 16%, 60% 48%,
+    74% 22%, 88% 50%, 100% 30%, 100% 100%
+  );
+}
+
+/* Soft dusk clouds catching warm light, drifting slowly. */
+.cloud {
+  position: absolute;
+  height: 4rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 170, 140, 0.18), transparent 72%);
+  filter: blur(16px);
+}
+
+.cloud-1 {
+  top: 9%;
+  width: 22rem;
+  animation: drift-cloud 70s linear infinite -12s;
+}
+
+.cloud-2 {
+  top: 28%;
+  width: 30rem;
+  opacity: 0.7;
+  animation: drift-cloud 105s linear infinite -50s;
+}
+
+.cloud-3 {
+  top: 44%;
+  width: 18rem;
+  opacity: 0.5;
+  animation: drift-cloud 85s linear infinite -25s;
+}
+
+@keyframes drift-cloud {
+  from { transform: translateX(-30vw); }
+  to { transform: translateX(120vw); }
+}
+
+/* An occasional shooting star. It travels down and to the right; the
+   bar is tilted to the same 20 degrees so the streak follows its path,
+   with the bright head leading and the trail fading out behind it. */
+.shooting-star {
+  position: absolute;
+  top: 7%;
+  left: 42%;
+  width: 110px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fff);
+  border-radius: 2px;
+  opacity: 0;
+  transform: rotate(20deg);
+  animation: shoot 11s ease-in infinite;
+}
+
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.9);
+}
+
+@keyframes shoot {
+  0%, 82% { opacity: 0; transform: translate(0, 0) rotate(20deg); }
+  85% { opacity: 1; }
+  93% { opacity: 1; }
+  98%, 100% { opacity: 0; transform: translate(260px, 95px) rotate(20deg); }
+}
+
+/* The moon, low in the sky. */
+.moon {
+  position: absolute;
+  top: 5rem;
+  left: 9%;
+  width: 2.6rem;
+  height: 2.6rem;
+  filter: drop-shadow(0 0 14px rgba(253, 241, 207, 0.5));
+}
+
+/* Two birds gliding across the sky. */
+.bird {
+  position: absolute;
+  width: 2.2rem;
+  height: 0.9rem;
+  opacity: 0.7;
+}
+
+.bird-1 {
+  top: 15%;
+  animation: glide 26s linear infinite -8s;
+}
+
+.bird-2 {
+  top: 20%;
+  width: 1.6rem;
+  animation: glide 34s linear infinite -22s;
+}
+
+.bird-3 {
+  top: 27%;
+  width: 1.2rem;
+  opacity: 0.55;
+  animation: glide 40s linear infinite -5s;
+}
+
+@keyframes glide {
+  from { transform: translateX(-10vw); }
+  to { transform: translateX(112vw); }
+}
+
+/* Layered hills, each one solid all the way down to the bottom of the
+   page so no sky shows between them. Furthest back is lightest. */
+.layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.layer-far {
+  height: 34vh;
+  background: var(--mtn-far);
+  clip-path: polygon(
+    0 100%, 0 42%, 12% 8%, 22% 40%, 34% 14%, 46% 44%, 58% 6%,
+    70% 38%, 82% 16%, 92% 42%, 100% 22%, 100% 100%
+  );
+}
+
+.layer-mid {
+  height: 24vh;
+  background: var(--mtn-mid);
+  clip-path: polygon(
+    0 100%, 0 55%, 10% 25%, 20% 58%, 32% 30%, 44% 60%, 55% 28%,
+    66% 56%, 78% 32%, 88% 58%, 100% 36%, 100% 100%
+  );
+}
+
+.layer-near {
+  height: 15vh;
+  background: var(--mtn-near);
+  clip-path: polygon(
+    0 100%, 0 58%, 4% 26%, 8% 60%, 12% 32%, 16% 62%, 20% 30%, 24% 58%,
+    28% 34%, 32% 62%, 36% 28%, 40% 60%, 44% 32%, 48% 62%, 52% 30%,
+    56% 58%, 60% 34%, 64% 62%, 68% 28%, 72% 60%, 76% 32%, 80% 62%,
+    84% 30%, 88% 58%, 92% 34%, 96% 60%, 100% 32%, 100% 100%
+  );
+}
+
+/* Warm lit windows dotted along the treeline. */
+.window {
+  position: absolute;
+  width: 7px;
+  height: 9px;
+  background: var(--window-glow);
+  box-shadow: 0 0 9px 3px var(--window-glow);
+}
+
+.w1 { bottom: 7vh; left: 22%; animation: flicker 3.5s ease-in-out infinite; }
+.w2 { bottom: 4vh; left: 54%; animation: flicker 4.2s ease-in-out infinite 1s; }
+.w3 { bottom: 6vh; right: 16%; animation: flicker 3s ease-in-out infinite 0.5s; }
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+/* Fireflies drifting just above the trees. */
+.firefly {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff0b8;
+  box-shadow: 0 0 8px 2px rgba(255, 233, 168, 0.9);
+}
+
+.f1 { bottom: 15vh; left: 18%; animation: float-bug 9s ease-in-out infinite; }
+.f2 { bottom: 12vh; left: 40%; animation: float-bug 11s ease-in-out infinite 2s; }
+.f3 { bottom: 17vh; left: 63%; animation: float-bug 8s ease-in-out infinite 1s; }
+.f4 { bottom: 13vh; right: 12%; animation: float-bug 12s ease-in-out infinite 3s; }
+
+@keyframes float-bug {
+  0%, 100% { transform: translate(0, 0); opacity: 0.5; }
+  25% { transform: translate(14px, -10px); opacity: 1; }
+  50% { transform: translate(-6px, -18px); opacity: 0.7; }
+  75% { transform: translate(-16px, -6px); opacity: 1; }
+}
+
+.critter {
+  position: absolute;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
+}
+
+.critter-ghost {
+  top: 7rem;
+  right: 8%;
+  width: 3.4rem;
+  height: 3.4rem;
+  animation: bob 6s ease-in-out infinite;
+}
+
+.critter-round {
+  bottom: 14vh;
+  left: 7%;
+  width: 2.6rem;
+  height: 2.6rem;
+  animation: bob 5s ease-in-out infinite reverse;
+}
+
+/* A critter sitting on the mid ridge, watching. */
+.critter-perch {
+  bottom: 21vh;
+  right: 16%;
+  width: 2.3rem;
+  height: 2.3rem;
+}
+
+/* A second critter down among the trees, with glowing eyes. */
+.peeker {
+  position: absolute;
+  bottom: 9vh;
+  left: 34%;
+  width: 3rem;
+  height: 2rem;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 65ch;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+}
+
+header {
+  margin-bottom: 2.5rem;
+}
+
 h1 {
-  font-size: 3rem;
-  line-height: 1.1;
+  font-family: "Baloo 2", "Space Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.1rem, 6vw, 2.9rem);
+  line-height: 1.15;
+  margin: 0 0 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+}
+
+h1 .word-shadow,
+h1 .word-purified {
+  -webkit-text-stroke: 1.5px var(--outline);
+  text-shadow: 3px 3px 0 var(--outline);
+}
+
+h1 .word-shadow {
+  color: var(--purple-glow);
+}
+
+h1 .word-purified {
+  color: var(--gold);
+}
+
+.ball-divider {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  animation: spin-slow 9s linear infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+.tagline {
+  color: var(--text-dim);
+  margin: 0;
+}
+
+fieldset {
+  border: 3px solid var(--border);
+  border-radius: 1.1rem;
+  padding: 1.5rem 1.5rem 1.5rem;
+  margin: 0 0 1.75rem;
+  background: var(--panel-solid);
+  box-shadow: 5px 5px 0 var(--outline);
+}
+
+legend {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--outline);
+  background: var(--gold);
+  border: 2px solid var(--outline);
+  border-radius: 999px;
+  padding: 0.25rem 0.9rem;
+  margin-left: -0.25rem;
+}
+
+.field {
+  display: block;
+  margin: 1.1rem 0;
+  font-weight: 500;
+}
+
+.field select,
+.field input[type="number"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-solid-2);
+  border: 2px solid var(--border);
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.8rem;
+}
+
+.field select:focus,
+.field input[type="number"]:focus {
+  outline: none;
+  border-color: var(--purple-glow);
+  box-shadow: 0 0 0 3px rgba(176, 135, 255, 0.3);
+}
+
+.field output {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold);
+}
+
+/* Custom range sliders, since the browser default doesn't fit the theme. */
+input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.6rem;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--purple-deep), var(--purple-mid));
+  border: 2px solid var(--outline);
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--outline);
+  margin-top: -8px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--outline);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--purple-deep), var(--purple-mid));
+}
+
+/* Radio options styled as chunky selectable pills, like a game's toggle
+   cards, using :has() to light up the pill that wraps the checked input. */
+.option {
+  display: flex;
+  align-items: center;
+  margin: 0.8rem 0;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 0.8rem;
+  background: var(--panel-solid-2);
+  box-shadow: 3px 3px 0 var(--outline);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.option:has(input:checked) {
+  background: var(--purple-mid);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--outline);
+}
+
+.option input {
+  accent-color: var(--gold);
+  margin-right: 0.7rem;
+}
+
+.tag {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: var(--outline);
+  border: 2px solid var(--outline);
+  border-radius: 0.4rem;
+  padding: 0.15rem 0.45rem;
+  margin-right: 0.6rem;
+}
+
+.tag-raid { background: #ff8a65; }
+.tag-pvp { background: #64b5f6; }
+.tag-dex { background: #81c995; }
+
+button {
+  font-family: "Baloo 2", sans-serif;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 1.05rem;
+  padding: 0.8rem 1.8rem;
+  border: 3px solid var(--outline);
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--outline);
+  box-shadow: 4px 4px 0 var(--outline);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+button:hover {
+  filter: brightness(1.05);
+}
+
+button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--outline);
+}
+
+.error {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* --- Result panel: the one part of the page that changes theme --- */
+
+#result {
+  margin-top: 2rem;
+  padding: 1.5rem 1.75rem;
+  border-radius: 1.1rem;
+  border: 3px solid var(--border);
+  background: var(--panel-solid);
+  box-shadow: 5px 5px 0 var(--outline);
+  transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+  animation: result-pop 0.35s ease;
+}
+
+@keyframes result-pop {
+  from { opacity: 0; transform: scale(0.97) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#result.verdict-purified {
+  background: linear-gradient(160deg, var(--cream), #ffecb3 120%);
+  border-color: var(--gold-deep);
+  box-shadow: 5px 5px 0 var(--gold-deep);
+  color: var(--ink);
+}
+
+#result h2 {
+  font-family: "Baloo 2", sans-serif;
+  font-size: 1.35rem;
+  margin: 0 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.icon {
+  width: 1.4em;
+  height: 1.4em;
+  flex: none;
+  display: none;
+  fill: currentColor;
+}
+
+#result.verdict-shadow .icon-shadow {
+  display: inline-block;
+  color: var(--purple-glow);
+}
+
+#result.verdict-purified .icon-purified {
+  display: inline-block;
+  color: var(--gold-deep);
+}
+
+#result-table {
+  width: 100%;
+  border-collapse: collapse;
   margin-bottom: 1.5rem;
 }
 
-p {
-  margin-bottom: 1.5rem;
+#result-table th,
+#result-table td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+}
+
+#result.verdict-purified #result-table th,
+#result.verdict-purified #result-table td {
+  border-bottom-color: rgba(200, 144, 10, 0.35);
+}
+
+#result-table th[scope="col"]:not(:first-child),
+#result-table td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#result-reasoning {
+  margin-bottom: 1rem;
+}
+
+.reminder {
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 0.85;
+  margin-bottom: 0;
+}
+
+@media (max-width: 420px) {
+  main {
+    padding: 3rem 1.1rem 4rem;
+  }
 }
