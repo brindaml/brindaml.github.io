@@ -1,0 +1,40 @@
+$ date -u
+Sun Sep  6 17:59:49 UTC 2026
+
+$ curl -sSI https://brindaml.github.io
+HTTP/2 200 
+server: GitHub.com
+content-type: text/html; charset=utf-8
+last-modified: Sun, 06 Sep 2026 17:57:31 GMT
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "6a9da98b-2009"
+expires: Sun, 06 Sep 2026 18:08:20 GMT
+cache-control: max-age=600
+x-proxy-cache: MISS
+x-github-request-id: 95E4:DD585:1486112:1B17C2F:6A9DA9BC
+x-github-edge-region: iad
+accept-ranges: bytes
+age: 89
+date: Sun, 06 Sep 2026 17:59:49 GMT
+via: 1.1 varnish
+x-served-by: cache-den-kden1300089-DEN
+x-cache: HIT
+x-cache-hits: 0
+x-timer: S1788717590.876922,VS0,VE1
+vary: Accept-Encoding
+x-fastly-request-id: 4e6947d32d5af52d3d1a19778c6319fdb0c2a17a
+content-length: 8201
+
+
+$ curl -sS https://brindaml.github.io | grep -iE '<title>|style.css|script.js|pokemon-data.js'
+  <title>Shadow or Purified?</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="pokemon-data.js"></script>
+  <script src="script.js"></script>
+
+$ curl -sS -o /dev/null -w 'style.css  -> HTTP %{http_code}
+' https://brindaml.github.io/style.css
+style.css  -> HTTP 200
+script.js  -> HTTP 200
+pokemon-data.js -> HTTP 200
