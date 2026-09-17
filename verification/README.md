@@ -1,3 +1,3 @@
 URL checked: https://brindaml.github.io
-When: 2026-09-06, 12:00pm MST
-What would have made this fail: Something that would have made this check fail would be if I hadn't set the pages for the repository to the correct folder in the settings. This would make the website return a 404 error, but because Claude and I set up GitHub pages correctly, it actually goes to my site.
+When: 2026-09-16, 9:38pm MST
+What would have made this fail: If library.js or library-data.js had been left with the wrong filename or an absolute path (like /library.js) after I renamed the old index.html to shadow-or-purified.html, the fetch for those files would have 404'd and the shelf and timeline views would render empty even though the page itself loaded.
