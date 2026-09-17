@@ -1,2 +1,5 @@
 .DS_Store
 Thumbs.db
+
+# reference screenshots, not part of the site
+/Screenshot*.png

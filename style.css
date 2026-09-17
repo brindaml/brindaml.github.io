@@ -668,6 +668,24 @@ button:active {
   margin-bottom: 0;
 }
 
+/* ============================================================
+   Game library page (index.html)
+   ============================================================ */
+
+.backlink {
+  margin: 0 0 1.5rem;
+}
+
+.backlink a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.backlink a:hover {
+  color: var(--gold);
+}
+
 @media (max-width: 420px) {
   main {
     padding: 3rem 1.1rem 4rem;

@@ -1,0 +1,707 @@
+/* Journal / scrapbook theme for the game library (index.html only).
+   The calculator page (shadow-or-purified.html) keeps its own dark
+   game-UI look in style.css - the two pages are meant to feel like
+   different rooms of the same site on purpose: a cozy corkboard next
+   to a glowing arcade cabinet.
+
+   Palette: a dark warm corkboard at night, with cream photos, pastel
+   washi tape, and stickers pinned to it, lit like fairy lights. Two
+   surfaces to keep straight throughout this file: the PAGE (dark, so
+   page-level text uses --page-ink/--page-ink-soft) and PAPER objects
+   pinned to it - polaroids, tape, chips, sticky notes (still light
+   cream, so their own text stays dark via --ink/--ink-soft). Dark
+   theme by design, not following the visitor's light/dark setting -
+   this corkboard doesn't flip to daytime. */
+
+:root {
+  color-scheme: dark;
+
+  --paper: #2a2119;
+  --paper-card: #faf1e2;
+  --paper-line: #4a3c2e;
+  --ink: #4a3f35;
+  --ink-soft: #8a7d6d;
+  --ink-faint: #b3a591;
+
+  --page-ink: #f2e6d3;
+  --page-ink-soft: #c7b39c;
+  --page-ink-faint: #5c4c3c;
+
+  --pink: #e8b4bc;
+  --pink-deep: #f0aebb;
+  --sage: #a8c3a0;
+  --sage-deep: #bfe0b6;
+  --lavender: #c7b8e0;
+  --lavender-deep: #9c86c4;
+  --peach: #f0c199;
+  --peach-deep: #d99a55;
+  --sky: #a9c9d6;
+  --sky-deep: #6ea3b6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body.journal {
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--page-ink);
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  font-size: 1.08rem;
+}
+
+/* A faint dot-grid, like graph-paper dot-journal pages, just barely
+   visible against the dark board. */
+.paper-texture {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--paper-line) 1.1px, transparent 1.1px);
+  background-size: 26px 26px;
+  opacity: 0.7;
+}
+
+/* A handful of doodles scattered around the page, purely decorative. */
+.decor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  height: 100%;
+}
+
+.doodle {
+  position: absolute;
+  opacity: 0.85;
+}
+
+.doodle-plant { width: 3.6rem; bottom: 2rem; left: 1.5rem; }
+.doodle-cup { width: 3rem; top: 8rem; right: 3%; transform: rotate(-6deg); }
+.doodle-star-1 { width: 1.1rem; top: 3rem; left: 42%; transform: rotate(-10deg); opacity: 1; }
+.doodle-star-2 { width: 0.9rem; top: 22rem; right: 8%; transform: rotate(15deg); opacity: 1; }
+.doodle-heart { width: 1.2rem; top: 14rem; left: 4%; transform: rotate(-8deg); }
+/* A soft warm glow instead of a stark white cloud, like light behind curtains. */
+.doodle-cloud { width: 5rem; top: 1rem; right: 12%; opacity: 0.12; filter: blur(1px); }
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 6rem;
+}
+
+/* --- Washi tape, reused on any card that wants to look pinned down --- */
+.tape {
+  position: absolute;
+  width: 2.6rem;
+  height: 1rem;
+  background: hsl(var(--h, 350) 62% 80% / 0.85);
+  border: 1px solid hsl(var(--h, 350) 40% 65% / 0.6);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Profile header: the avatar as a pinned-up polaroid --- */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.polaroid {
+  position: relative;
+  background: var(--paper-card);
+  padding: 0.6rem 0.6rem 1.3rem;
+  border-radius: 3px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.33), 0 1px 3px rgba(0, 0, 0, 0.27);
+}
+
+.avatar-polaroid {
+  transform: rotate(-4deg);
+  flex: none;
+}
+
+.avatar-polaroid .tape-a { top: -0.5rem; left: -0.6rem; --h: 350; transform: rotate(-25deg); }
+.avatar-polaroid .tape-b { top: -0.5rem; right: -0.6rem; --h: 95; transform: rotate(20deg); }
+
+.avatar {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  background: #fdf9f0;
+  border-radius: 2px;
+}
+
+.profile-text h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 0 0 0.3rem;
+  color: var(--page-ink);
+}
+
+.tagline {
+  font-family: "Caveat", cursive;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--pink-deep);
+  margin: 0;
+}
+
+.intro {
+  margin: 0 0 1.75rem;
+  color: var(--page-ink-soft);
+  max-width: 55ch;
+}
+
+/* A placeholder the site owner fills in - a light pencil-dashed note.
+   Default colors assume it's sitting directly on the dark page (most
+   uses are); .feature-body overrides it below for the one spot it
+   shows up inside a light card instead. */
+.todo {
+  display: inline-block;
+  border-bottom: 2px dashed var(--page-ink-faint);
+  color: var(--page-ink-soft);
+  font-style: italic;
+}
+
+p.todo, .view-note.todo {
+  border: none;
+  border-left: 3px dashed var(--page-ink-faint);
+  padding-left: 0.8rem;
+  display: block;
+}
+
+/* --- The calculator callout, styled as a pinned sticky note --- */
+.featured-build {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 2rem;
+  padding: 0.7rem 1.1rem 0.7rem 2.1rem;
+  background: var(--peach);
+  color: var(--ink);
+  border-radius: 2px;
+  transform: rotate(-1.5deg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.featured-build .pin {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.6rem;
+  font-size: 1rem;
+}
+
+.tool-link {
+  font-weight: 800;
+  color: var(--sage-deep);
+  text-decoration: none;
+  border-bottom: 2px solid var(--sage-deep);
+}
+
+.tool-link:hover {
+  color: var(--pink-deep);
+  border-color: var(--pink-deep);
+}
+
+/* --- View toggle: soft pill tabs --- */
+.view-toggle {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-bottom: 2.25rem;
+  padding: 0.3rem;
+  background: var(--paper-card);
+  border-radius: 999px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.27);
+}
+
+.view-toggle button {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1.15rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.view-toggle button.active {
+  background: var(--sage);
+  color: #2f4229;
+}
+
+.view-toggle button:not(.active):hover {
+  background: var(--paper-line);
+  color: var(--ink);
+}
+
+/* --- Shelf view: section dividers as tape banners --- */
+.shelf-section {
+  margin-bottom: 3rem;
+}
+
+.shelf-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--ink);
+  background: hsl(var(--h, 265) 55% 85%);
+  border: 1px solid hsl(var(--h, 265) 45% 70%);
+  padding: 0.4rem 1.3rem;
+  border-radius: 3px;
+  transform: rotate(-1deg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin: 0 0 1.6rem;
+}
+
+.shelf-label-icon {
+  font-style: normal;
+  font-size: 1.05em;
+}
+
+/* A little piece of washi tape pinning the top-left corner, tying the
+   section headers into the same scrapbook language as the polaroids. */
+.shelf-label-tape {
+  position: absolute;
+  top: -0.55rem;
+  left: 0.8rem;
+  width: 2.1rem;
+  height: 0.85rem;
+  background: hsl(var(--h, 265) 62% 80% / 0.9);
+  border: 1px solid hsl(var(--h, 265) 40% 60% / 0.6);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transform: rotate(-8deg);
+}
+
+.slop-intro {
+  margin: 0 0 1.4rem;
+  color: var(--page-ink-soft);
+}
+
+/* --- Game cards as tilted polaroids ---
+   The grids break out of main's reading-width column on purpose - a wall
+   of covers reads better spread across the screen than squeezed into a
+   text-width column, unlike the surrounding paragraphs, which stay
+   narrow for readability. Desktop-only concern, not tuned for phones. */
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem 1.1rem;
+  padding: 0.5rem 12rem 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  box-sizing: border-box;
+}
+
+.game-case {
+  position: relative;
+  background: var(--paper-card);
+  padding: 0.5rem 0.5rem 1.6rem;
+  border-radius: 2px;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.31), 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.shelf-grid .game-case:nth-child(3n) { transform: rotate(-5deg); }
+.shelf-grid .game-case:nth-child(3n+1) { transform: rotate(4deg); }
+.shelf-grid .game-case:nth-child(3n+2) { transform: rotate(-2.5deg); }
+
+.game-case:hover {
+  transform: rotate(0deg) scale(1.04) !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.37);
+  z-index: 2;
+}
+
+.game-case::before {
+  content: "";
+  position: absolute;
+  inset: 0.5rem 0.5rem 1.6rem;
+  aspect-ratio: 3 / 4;
+  background: hsl(var(--h, 265) 55% 88%);
+  border-radius: 1px;
+}
+
+.game-case img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 1px;
+}
+
+/* Without a cover <img>, nothing else in the card establishes its height
+   (the ::before overlay is absolutely positioned, so it can't do that on
+   its own) - give the card itself the aspect ratio as a safety net. */
+.game-case--generated {
+  aspect-ratio: 3 / 4;
+}
+
+.game-case--generated::before {
+  background-image:
+    radial-gradient(circle at 60% 35%, hsl(var(--h, 265) 65% 78%) 0 22%, transparent 23%),
+    hsl(var(--h, 265) 55% 88%);
+}
+
+.case-title {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-top: 0.5rem;
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  color: var(--ink);
+  text-align: center;
+}
+
+.case-flag {
+  position: absolute;
+  z-index: 2;
+  top: 0.9rem;
+  left: 0.9rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 0.6rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--pink);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+}
+
+/* --- Featured write-up: polaroid + a note card beside it --- */
+.game-feature {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.game-feature .game-case--tall {
+  width: 130px;
+  flex: none;
+  transform: rotate(-3deg);
+}
+
+.game-feature .game-case--tall:hover {
+  transform: rotate(0deg) scale(1.04) !important;
+}
+
+.feature-body {
+  flex: 1;
+  min-width: 200px;
+  background: var(--paper-card);
+  border-radius: 3px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.29);
+  transform: rotate(0.8deg);
+}
+
+.feature-body h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem;
+  color: var(--ink);
+}
+
+.feature-body p {
+  margin: 0.5rem 0 0;
+  color: var(--ink-soft);
+}
+
+.feature-body p:not(.todo) {
+  color: var(--ink);
+}
+
+/* This card is light, unlike most of the page - undo the page-dark
+   defaults .todo sets above so the placeholder note stays readable
+   against this card's own cream background. */
+.feature-body .todo {
+  color: var(--ink-soft);
+  border-color: var(--ink-faint);
+}
+
+/* --- Timeline view: a snake ---
+   Flows across a row left-to-right, drops down, then flows back
+   right-to-left, like an ox plowing a field - reads across the screen's
+   width instead of one long column or a narrow zigzag down the middle.
+   Full-bleed like the shelf grid, since it's rows of plain image nodes
+   with no paragraph text needing a narrow column. Desktop-only concern. */
+.timeline-snake {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 0.5rem 4rem 2.5rem;
+  box-sizing: border-box;
+}
+
+/* One continuous hand-drawn-feeling line, threaded through every dot's
+   real measured position (wobble included) by drawSnakeLine() in
+   library.js - not separate straight pieces for "across" and "down"
+   glued together, which never quite looked like the same path. */
+.snake-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.snake-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+
+.snake-row--rtl {
+  flex-direction: row-reverse;
+}
+
+.snake-node {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  transition: margin-top 0.2s ease;
+}
+
+.snake-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: hsl(var(--h, 265) 60% 75%);
+  border: 2px solid var(--paper);
+  box-shadow: 0 0 0 1.5px var(--page-ink-faint);
+}
+
+.timeline-case {
+  width: 130px;
+  padding: 0.4rem 0.4rem 0.6rem;
+  flex: none;
+  transition: transform 0.18s ease;
+}
+
+.timeline-case::before {
+  inset: 0.4rem 0.4rem 0.6rem;
+}
+
+.timeline-case .case-title {
+  display: none;
+}
+
+/* Grow the thumbnail on hover and reveal its hours played - matches the
+   .game-case:hover rule's specificity, so !important is needed to win. */
+.timeline-case:hover {
+  transform: scale(1.9) !important;
+  z-index: 4;
+}
+
+.timeline-info {
+  position: absolute;
+  inset: 0.4rem 0.4rem 0.6rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  border-radius: 1px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 0.62rem;
+  line-height: 1.15;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.timeline-case:hover .timeline-info {
+  opacity: 1;
+}
+
+.timeline-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.timeline-name {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--page-ink);
+  text-align: center;
+  max-width: 130px;
+}
+
+.timeline-cat {
+  display: inline-block;
+  width: fit-content;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: hsl(var(--h, 265) 55% 87%);
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+}
+
+/* --- Playtime view: a packed cluster of circular photos, sized by
+   hours played. The cluster is genuinely packed (library.js works out
+   x/y/size for every circle with a real, if simple, packing algorithm)
+   and it's deliberately let out of main's normal reading-width column
+   so it can spread across the page, the way the reference chart did. */
+.bubble-field-wrap {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  padding: 0.5rem 0 2rem;
+}
+
+.bubble-field {
+  position: relative;
+  flex: none;
+}
+
+/* The cursor-follow trail (built in library.js's initBubbleTrail). Sits
+   above the bubbles but never intercepts clicks/hover of its own. */
+.bubble-trail {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.bubble-trail line {
+  stroke: var(--pink-deep);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px hsl(350 70% 75% / 0.6));
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.33);
+  transition: transform 0.18s ease;
+  box-sizing: border-box;
+}
+
+.bubble:nth-child(3n) { transform: rotate(-4deg); }
+.bubble:nth-child(3n+1) { transform: rotate(3deg); }
+
+.bubble:hover {
+  transform: scale(1.18) rotate(0deg) !important;
+  z-index: 2;
+}
+
+.bubble::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: hsl(var(--h, 265) 55% 88%);
+  z-index: 0;
+}
+
+/* The cover fills the whole circle - out of normal flow so the label
+   (also positioned, below) never competes with it for space. */
+.bubble img {
+  position: absolute;
+  inset: 5px;
+  z-index: 1;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bubble--generated::before {
+  background-image:
+    radial-gradient(circle at 60% 35%, hsl(var(--h, 265) 65% 78%) 0 22%, transparent 23%),
+    hsl(var(--h, 265) 55% 88%);
+}
+
+/* The name only shows up on hover, as a dark scrim over the whole
+   circle - the rest of the time it's just the cover photo. */
+.bubble-label {
+  position: absolute;
+  inset: 5px;
+  z-index: 2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 0.72rem;
+  line-height: 1.15;
+  text-align: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.68);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.bubble:hover .bubble-label {
+  opacity: 1;
+}
+
+.view-note {
+  margin: 0 0 1.75rem;
+  max-width: 55ch;
+  color: var(--page-ink-soft);
+}
+
+@media (max-width: 480px) {
+  .game-feature {
+    flex-direction: column;
+  }
+  .doodle-cup, .doodle-cloud { display: none; }
+}

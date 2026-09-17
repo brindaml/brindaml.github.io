@@ -14,7 +14,7 @@ Delete these instructions when you are done, or leave them. It does not matter.
 What you wanted at the start, and what is actually live now.
 Name one thing you dropped or added along the way, and why.
 
-Something I wanted to build was a vague site about who I am and what I enjoy. I didn't want to just dump a lot of information about me, like specifics about who I am because I am a pretty private person, but I did want it to be a lot of pictures and things I enjoy, so someone who knows me can visit it and think know a little more about it, but someone who doesn't know me wouldn't necessarily know it's my website. 
+Something I wanted to build was a vague site about who I am and what I enjoy. I didn't want to just dump a lot of information about me, like specifics about who I am because I am a pretty private person, but I did want it to be a lot of pictures and things I enjoy, so someone who knows me can visit it and think know a little more about it, but someone who doesn't know me wouldn't necessarily know it's my website. At first, it was all about Pokemon, but I was able to tailor it to my gaming experience and focus on me as a gamer.
 
 
 
@@ -32,7 +32,7 @@ Say which you picked, what the alternative was, and what you gave up by not taki
 
 "There was no alternative" is not an answer. Find the fork.
 
-I wasn't sure if I should make the whole website a Pokemon Go calculator, or make it a subset of a broader website with multiple tabs about different things related to Pokemon Go. This was quite a dilemma for me because I thought it could have been cool to do a broaded website, but the static limitations of GitHub along with the limitations of Niantic not publishing public API's for Pokemon Go made that challenging. 
+I wasn't sure if I should make the whole website a Pokemon Go calculator, or make it a subset of a broader website with multiple tabs about different things related to gaming. This was quite a dilemma for me because I wanted to make my website personal but I didn't want to scrap the Pokemon Go website. I ended up scrapping it to focus on my Steam experince in gaming, which I think was a great alternative. 
 
 ---
 
@@ -46,8 +46,8 @@ If it genuinely never happened, say so plainly, and then say what you would have
 check in order to notice. Being honest here costs you far less than a story you cannot
 defend when you record your video.
 
-Claude originally thought when I meant simple, I meant that the website should just tell you the difference between purified and shadow Pokemon, and basically just have a small decision tree. I wanted to have someone input their Pokemon and IVs and then have the calculator tell you if it's actually the best idea to purify the Pokemon or not. Claude wasn't necessarily pushing back, but it definitely did not want me to create a list of the 151 Pokemon in the first generation and their IVs. When I had suggested this, Claude took the suggestion, so it wasn't necessarily a pivot, but I had to push Claude to this diretion, when at every step it kept asking if I was sure or if I wanted to do something easier. 
-Had Claude pushed back properly, I would have ensured that the scope made sense for this project still (a static website) but was what I wanted to be able to show the class. Once understanding what the scope of the assignment was and if Claude didn't think those aligned, I would have altered my own ideas for the website, rather than blinding trusting the AI to figure it out. 
+When I initially said I wanted bubbles that were relative to the playtime of my games, Claude misunderstood what I was saying and had completely changed the design. I had to put in an image of something similar I saw on a different platform and ask Claude to reevaluate. Claude was able to remake the bubbles according to what I wanted after that, and I was really happy with the final result once I finished. I think this was more a miscommunication barrier, and taught me that I need to ensure that the AI fully understands what my goal is, and if I can't articulate it via words, I need to find an image that helps it understand.
+
 
 ---
 
@@ -60,7 +60,7 @@ A check that could not have failed is not a check.
 
 Link to your `verification/` folder.
 
-To check if the website was actually live, I opened the URL brindaml.github.io to ensure that it went to the website that Claude and I had designed, and all of the aspects of it were working. I checked with a live example of a shadow Pokemon I had in my collection to see if when I put in the stats, it correctly calculated what the new CP would be, and it worked! Additionally, when I fetched the URL with curl everything returned 200 meaning that all of the parts were loaded and everything was working well. 
+To check if the website was actually live, I opened the URL brindaml.github.io to ensure that it went to the website that Claude and I had designed, and all of the aspects of it were working. I checked to ensure my hours were accurate to my actual gaming experience as well. Additionally, when I fetched the URL with curl everything returned 200 meaning that all of the parts were loaded and everything was working well. 
 If the Pages on GitHub were linked incorrectly, the URL would have gone to a 404 error and the verification would have failed. This information is all also in the verification folder in the p1-website repo.
 
 ---
@@ -72,4 +72,4 @@ fully understand.
 
 What would you do next, and how would you find out?
 
-Something that isn't finished on the website is how I wanted to incorporate more Pokemon graphics and more generations. If given more time or understanding, I would have loved to link the actual sprites of the Pokemon to the website instead of a dropdown menu. I wasnt sure how to do that dynamically in a GitHub website, so moving forward, I would love to be able to use some Pokemon API to render the images. Also, Integrating the other Generations would be awesome, but would take a broader understanding of the mechanisms behind the calculations. I would find out via understandings of APIs and documentation about how to incorporate that onto a site, along with prompting Claude for more information on how to do it effectively. 
+Something that isn't quite done is being able to integrate other games not from Steam. It's hard to get other games onto this website while making sure to obey copyright rules and make sure it looks good, so in the future, I would love to understand the rules of copyright and be able to integrate other games that I play that aren't on the platform. I would also love for it to dynamically update the hours played based on when I play them on Steam, rather than having to update them myself.
