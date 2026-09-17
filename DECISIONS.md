@@ -14,8 +14,7 @@ Delete these instructions when you are done, or leave them. It does not matter.
 What you wanted at the start, and what is actually live now.
 Name one thing you dropped or added along the way, and why.
 
-Something I wanted to build was a vague site about who I am and what I enjoy. I didn't want to just dump a lot of information about me, like specifics about who I am because I am a pretty private person, but I did want it to be a lot of pictures and things I enjoy, so someone who knows me can visit it and think know a little more about it, but someone who doesn't know me wouldn't necessarily know it's my website. At first, it was all about Pokemon, but I was able to tailor it to my gaming experience and focus on me as a gamer.
-
+Something I wanted to build was a vague site about who I am and what I enjoy. I didn't want to just dump a lot of information about me, like specifics about who I am because I am a pretty private person, but I did want it to be a lot of pictures and things I enjoy, so someone who knows me can visit it and think know a little more about it, but someone who doesn't know me wouldn't necessarily know it's my website. At first, it was all about Pokemon, but I was able to tailor it to my gaming experience and focus on me as a gamer. I did this to give the website a more personal touch and be able to speak to my gaming hobby, but not give out too much information about myself.
 
 
 
@@ -32,7 +31,7 @@ Say which you picked, what the alternative was, and what you gave up by not taki
 
 "There was no alternative" is not an answer. Find the fork.
 
-I wasn't sure if I should make the whole website a Pokemon Go calculator, or make it a subset of a broader website with multiple tabs about different things related to gaming. This was quite a dilemma for me because I wanted to make my website personal but I didn't want to scrap the Pokemon Go website. I ended up scrapping it to focus on my Steam experince in gaming, which I think was a great alternative. 
+I wasn't sure if I should make the whole website a Pokemon Go calculator, or make it a subset of a broader website with multiple tabs about different things related to gaming. This was quite a dilemma for me because I wanted to make my website personal but I didn't want to scrap the Pokemon Go website. I ended up scrapping it to focus on my Steam experince in gaming, which I think was a great alternative. I gave up having integration of both the Pokemon Go calculator and my personal website, but I really like the end result.
 
 ---
 
