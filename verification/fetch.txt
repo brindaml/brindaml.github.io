@@ -1,29 +1,29 @@
 $ date -u
-Thu Sep 17 03:38:15 UTC 2026
+Thu Sep 17 03:50:59 UTC 2026
 
 $ curl -sSI https://brindaml.github.io
 HTTP/2 200 
 server: GitHub.com
 content-type: text/html; charset=utf-8
-last-modified: Thu, 17 Sep 2026 03:37:41 GMT
+last-modified: Thu, 17 Sep 2026 03:50:32 GMT
 access-control-allow-origin: *
 strict-transport-security: max-age=31556952
-etag: "6aab6085-e84"
-expires: Thu, 17 Sep 2026 03:47:53 GMT
+etag: "6aab6388-e84"
+expires: Thu, 17 Sep 2026 04:00:59 GMT
 cache-control: max-age=600
 x-proxy-cache: MISS
-x-github-request-id: 6012:134DD6:40EE3E:4A051E:6AAB6091
+x-github-request-id: 36F4:134DD6:43B5E4:4D2FDD:6AAB63A2
 x-github-edge-region: iad
 accept-ranges: bytes
-date: Thu, 17 Sep 2026 03:38:15 GMT
+age: 0
+date: Thu, 17 Sep 2026 03:50:59 GMT
 via: 1.1 varnish
-age: 22
-x-served-by: cache-den-kden1300097-DEN
-x-cache: HIT
-x-cache-hits: 1
-x-timer: S1789616295.368166,VS0,VE2
+x-served-by: cache-den-kden1300036-DEN
+x-cache: MISS
+x-cache-hits: 0
+x-timer: S1789617060.502898,VS0,VE61
 vary: Accept-Encoding
-x-fastly-request-id: 6980a5f131d6e50f0262578caf5da202291257c1
+x-fastly-request-id: d93dfcd41d63248d2226c36bce367b0e61d92933
 content-length: 3716
 
 
@@ -38,4 +38,3 @@ $ curl -sS -o /dev/null -w 'journal.css  -> HTTP %{http_code}
 journal.css  -> HTTP 200
 library-data.js -> HTTP 200
 library.js -> HTTP 200
-shadow-or-purified.html -> HTTP 200
